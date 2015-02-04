@@ -2,6 +2,7 @@
 /*! 
     @file     Adafruit_TSL2591.cpp
     @author   KT0WN (adafruit.com)
+		@author   wbphelps (wm@usa.net)
 
     This is a library for the Adafruit TSL2591 breakout board
     This library works with the Adafruit TSL2591 breakout 
@@ -165,17 +166,17 @@ tsl2591IntegrationTime_t Adafruit_TSL2591::getTiming()
   return _integration;
 }
 
-uint32_t Adafruit_TSL2591::calculateLux(uint16_t ch0, uint16_t ch1)
+float Adafruit_TSL2591::calculateLux(uint16_t ch0, uint16_t ch1) /*wbp*/
 {
-  uint16_t atime, again;
+  float atime, again; /*wbp*/
   float    cpl, lux1, lux2, lux;
-  uint32_t chan0, chan1;
+//  uint32_t chan0, chan1; /*wbp*/
 
   // Check for overflow conditions first
   if ((ch0 == 0xFFFF) | (ch1 == 0xFFFF))
   {
     // Signal an overflow
-    return 0;
+    return 0.0;
   }
 
   // Note: This algorithm is based on preliminary coefficients
@@ -209,16 +210,19 @@ uint32_t Adafruit_TSL2591::calculateLux(uint16_t ch0, uint16_t ch1)
   switch (_gain)
   {
     case TSL2591_GAIN_LOW :
-      again = 1.0F;
+//      again = 1.0F;
+      again = 1.03F; /*wbp*/
       break;
     case TSL2591_GAIN_MED :
       again = 25.0F;
       break;
     case TSL2591_GAIN_HIGH :
-      again = 428.0F;
+//      again = 428.0F;
+      again = 425.0F; /*wbp*/
       break;
     case TSL2591_GAIN_MAX :
-      again = 9876.0F;
+//      again = 9876.0F;
+      again = 7850.0F; /*wbp*/
       break;
     default:
       again = 1.0F;
@@ -235,7 +239,8 @@ uint32_t Adafruit_TSL2591::calculateLux(uint16_t ch0, uint16_t ch1)
   lux = lux1 > lux2 ? lux1 : lux2;
 
   // Signal I2C had no errors
-  return (uint32_t)lux;
+//  return (uint32_t)lux;return (uint32_t)lux;
+  return lux;  /*wbp*/
 }
 
 uint32_t Adafruit_TSL2591::getFullLuminosity (void)
@@ -387,6 +392,6 @@ void Adafruit_TSL2591::getSensor(sensor_t *sensor)
   sensor->type        = SENSOR_TYPE_LIGHT;
   sensor->min_delay   = 0;
   sensor->max_value   = 88000.0;
-  sensor->min_value   = 0.0;
-  sensor->resolution  = 1.0;
+  sensor->min_value   = 0.001;
+  sensor->resolution  = 0.001;
 }

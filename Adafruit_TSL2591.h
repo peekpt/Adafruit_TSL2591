@@ -2,6 +2,7 @@
 /*! 
     @file     Adafruit_TSL2591.h
     @author   KT0WN (adafruit.com)
+		@author   wbphelps (wm@usa.net)
 
     This is a library for the Adafruit TSL2591 breakout board
     This library works with the Adafruit TSL2591 breakout 
@@ -75,7 +76,8 @@
 
 #define TSL2591_CONTROL_RESET     (0x80)
 
-#define TSL2591_LUX_DF            (408.0F)
+//#define TSL2591_LUX_DF            (408.0F)
+#define TSL2591_LUX_DF            (735.0F)  /*wbp*/
 #define TSL2591_LUX_COEFB         (1.64F)  // CH0 coefficient 
 #define TSL2591_LUX_COEFC         (0.59F)  // CH1 coefficient A
 #define TSL2591_LUX_COEFD         (0.86F)  // CH2 coefficient B
@@ -129,7 +131,7 @@ class Adafruit_TSL2591 : public Adafruit_Sensor
   uint16_t  read16  ( uint8_t reg );
   uint8_t   read8   ( uint8_t reg );
 
-  uint32_t  calculateLux  ( uint16_t ch0, uint16_t ch1 );
+  float     calculateLux  ( uint16_t ch0, uint16_t ch1 );  /*wbp*/
   void      setGain       ( tsl2591Gain_t gain );
   void      setTiming     ( tsl2591IntegrationTime_t integration );
   uint16_t  getLuminosity (uint8_t channel );
