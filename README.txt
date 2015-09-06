@@ -1,4 +1,6 @@
-Modified WBP version (0.01-120.000Lux)
+**Modified WBP version (0.01-120.000Lux)**
+
+
 This is an Arduino library for the TSL2591 digital luminosity (light) sensors. 
 
 Pick one up at http://www.adafruit.com/products/1980
